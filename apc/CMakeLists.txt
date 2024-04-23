@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.21)
+
+add_library(apc
+  ${CMAKE_CURRENT_SOURCE_DIR}/apc.cpp
+  
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/apc.hpp
+)
+
+add_library(apc::apc ALIAS apc)
+
+target_include_directories(apc
+  PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
+  PRIVATE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
+
+install(TARGETS apc
+  EXPORT apc-config
+  RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+  LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+)
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include
+  DESTINATION ${CMAKE_INSTALL_PREFIX})
